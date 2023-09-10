@@ -22,6 +22,7 @@ class Camera:
         self.img_sz = rospy.get_param(node_name + '/img_sz')
         self.view_path = rospy.get_param(node_name + '/view_path')
         recalibrate = rospy.get_param(node_name + '/recalibrate')
+        rechoose = rospy.get_param(node_name + '/rechoose')
         self.ids = list(map(int, eval(rospy.get_param(node_name + '/ids'))))
 
         # initialize ArUco
@@ -40,7 +41,7 @@ class Camera:
                 if ret:
                     images.append(image)
             if len(images) == 4:
-                self.matrices, self.paths = preprocess(images, self.img_sz, recalibrate)
+                self.matrices, self.paths = preprocess(images, self.img_sz, recalibrate, rechoose)
                 break
         # ask node 'controller' to access map
         rospy.wait_for_service('get_map')

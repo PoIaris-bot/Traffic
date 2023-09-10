@@ -8,6 +8,7 @@
     <arg name="baud_rate" default="115200"/>
     <arg name="port" default="/dev/ttyUSB0"/>
     <arg name="recalibrate" default="False"/>
+    <arg name="rechoose" default="False"/>
     <arg name="ids" default="['1', '4', '5', '6', '7', '9']"/>
 
     <node pkg="traffic" type="camera.py" name="camera">
@@ -19,6 +20,7 @@
         <param name="img_sz" type="int" value="$(arg img_sz)"/>
         <param name="view_path" type="bool" value="$(arg view_path)"/>
         <param name="recalibrate" type="bool" value="$(arg recalibrate)"/>
+        <param name="rechoose" type="bool" value="$(arg rechoose)"/>
     </node>
     <node pkg="traffic" type="controller.py" name="controller" output="screen">
         <param name="ids" type="string" value="$(arg ids)"/>

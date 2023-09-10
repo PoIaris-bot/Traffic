@@ -76,8 +76,8 @@ def calc_paths(points, scale):
     spot2_2 = points[2][3, :]
     exit_2 = points[2][4, :]
     crossing2_2 = points[2][5, :]
-    switch1_2 = [spot1_2[0], exit_2[1]]
-    switch2_2 = [spot2_2[0], exit_2[1]]
+    switch1_2 = [spot1_2[0], exit_2[1] + 0.1 * abs(exit_2[1] - spot1_2[1])]
+    switch2_2 = [spot2_2[0], exit_2[1] + 0.1 * abs(exit_2[1] - spot2_2[1])]
 
     r1_2 = abs(crossing1_2[0] - entrance_2[0]) * 0.2
     path1_2 = np.linspace(crossing1_2, [entrance_2[0] + r1_2, crossing1_2[1]], int(15 * scale), endpoint=False)
@@ -107,7 +107,7 @@ def calc_paths(points, scale):
     spot1_in_bw_path_2 = np.linspace(switch1_2, spot1_2, int(15 * scale))
     spot2_in_bw_path_2 = np.linspace(switch2_2, spot2_2, int(15 * scale))
 
-    r2_2 = abs(exit_2[0] - spot2_2[0]) / 2
+    r2_2 = abs(exit_2[0] - spot2_2[0]) / 3
     angles2_2 = np.linspace(np.pi, np.pi / 2, int(5 * scale), endpoint=False)
     path8_2 = np.linspace(
         spot1_2, [spot1_2[0], exit_2[1] + r2_2], int(10 * scale), endpoint=False
@@ -123,12 +123,14 @@ def calc_paths(points, scale):
     )
     spot1_out_path_2 = np.vstack([path8_2, path9_2, path10_2, path11_2, path12_2])
 
-    angles4_2 = np.linspace(np.pi, 0, int(12 * scale), endpoint=False)
     path13_2 = np.linspace(
         spot2_2, [spot2_2[0], exit_2[1] + r2_2], int(10 * scale), endpoint=False
     )
-    path14_2 = np.array([exit_2[0] - r2_2 + r2_2 * np.cos(angles4_2), exit_2[1] + r2_2 - r2_2 * np.sin(angles4_2)]).T
-    spot2_out_path_2 = np.vstack([path13_2, path14_2, path12_2])
+    path14_2 = np.array([spot2_2[0] + r2_2 + r2_2 * np.cos(angles2_2), exit_2[1] + r2_2 - r2_2 * np.sin(angles2_2)]).T
+    path15_2 = np.linspace(
+        [spot2_2[0] + r2_2, exit_2[1]], [exit_2[0] - r2_2, exit_2[1]], int(5 * scale), endpoint=False
+    )
+    spot2_out_path_2 = np.vstack([path13_2, path14_2, path15_2, path11_2, path12_2])
 
     crossing1_0 = points[0][0, :]
     entrance_0 = points[0][1, :]
@@ -136,8 +138,8 @@ def calc_paths(points, scale):
     spot2_0 = points[0][3, :]
     exit_0 = points[0][4, :]
     crossing2_0 = points[0][5, :]
-    switch1_0 = [spot1_0[0], exit_0[1]]
-    switch2_0 = [spot2_0[0], exit_0[1]]
+    switch1_0 = [spot1_0[0], exit_0[1] - 0.1 * abs(exit_0[1] - spot1_0[1])]
+    switch2_0 = [spot2_0[0], exit_0[1] - 0.1 * abs(exit_0[1] - spot2_0[1])]
 
     r1_0 = abs(crossing1_0[0] - entrance_0[0]) * 0.2
     path1_0 = np.linspace(crossing1_0, [entrance_0[0] - r1_0, crossing1_0[1]], int(15 * scale), endpoint=False)
@@ -167,7 +169,7 @@ def calc_paths(points, scale):
     spot1_in_bw_path_0 = np.linspace(switch1_0, spot1_0, int(15 * scale))
     spot2_in_bw_path_0 = np.linspace(switch2_0, spot2_0, int(15 * scale))
 
-    r2_0 = abs(exit_0[0] - spot2_0[0]) / 2
+    r2_0 = abs(exit_0[0] - spot2_0[0]) / 3
     angles2_0 = np.linspace(0, -np.pi / 2, int(5 * scale), endpoint=False)
     path8_0 = np.linspace(
         spot1_0, [spot1_0[0], exit_0[1] - r2_0], int(10 * scale), endpoint=False
@@ -183,12 +185,15 @@ def calc_paths(points, scale):
     )
     spot1_out_path_0 = np.vstack([path8_0, path9_0, path10_0, path11_0, path12_0])
 
-    angles4_0 = np.linspace(0, -np.pi, int(12 * scale), endpoint=False)
     path13_0 = np.linspace(
         spot2_0, [spot2_0[0], exit_0[1] - r2_0], int(10 * scale), endpoint=False
     )
-    path14_0 = np.array([exit_0[0] + r2_0 + r2_0 * np.cos(angles4_0), exit_0[1] - + r2_0 - r2_0 * np.sin(angles4_0)]).T
-    spot2_out_path_0 = np.vstack([path13_0, path14_0, path12_0])
+    path14_0 = np.array([spot2_0[0] - r2_0 + r2_0 * np.cos(angles2_0), exit_0[1] - r2_0 - r2_0 * np.sin(angles2_0)]).T
+    path15_0 = np.linspace(
+        [spot2_0[0] - r2_0, exit_0[1]], [exit_0[0] + r2_0, exit_0[1]], int(5 * scale), endpoint=False
+    )
+    spot2_out_path_0 = np.vstack([path13_0, path14_0, path15_0, path11_0, path12_0])
+
     return {
         'lane0': lane_path_0,
         'spot1_in_fw0': spot1_in_fw_path_0,
@@ -241,7 +246,7 @@ def load_matrices_from_json():
     return matrices
 
 
-def preprocess(images, img_sz, recalibrate):
+def preprocess(images, img_sz, recalibrate=False, rechoose=False):
     if recalibrate:
         matrices = {}
         corner_positions = ['top left', 'bottom left', 'bottom right', 'top right']
@@ -271,6 +276,12 @@ def preprocess(images, img_sz, recalibrate):
             )
             images[i] = cv2.warpPerspective(image, matrix, (img_sz, img_sz))
             matrices['cam' + str(i)] = matrix
+        save_matrices_to_json(matrices)
+
+    matrices = load_matrices_from_json()
+    if recalibrate or rechoose:
+        for i, image in enumerate(images):
+            images[i] = cv2.warpPerspective(image, matrices['cam' + str(i)], (img_sz, img_sz))
         top = np.hstack([images[2], images[1]])
         bottom = np.hstack([images[3], images[0]])
         image = np.vstack([top, bottom])
@@ -305,10 +316,8 @@ def preprocess(images, img_sz, recalibrate):
             points[key] = np.array(points[key])
         paths = calc_paths(points, img_sz / 500)
 
-        save_matrices_to_json(matrices)
         save_paths_to_json(paths)
     else:
-        matrices = load_matrices_from_json()
         paths = load_paths_from_json()
     return matrices, paths
 
