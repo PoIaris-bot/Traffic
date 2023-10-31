@@ -274,7 +274,6 @@ def preprocess(images, img_sz, recalibrate=False, rechoose=False):
                 np.array(corners, dtype=np.float32),
                 np.array([[0, 0], [0, img_sz], [img_sz, img_sz], [img_sz, 0]], dtype=np.float32)
             )
-            images[i] = cv2.warpPerspective(image, matrix, (img_sz, img_sz))
             matrices['cam' + str(i)] = matrix
         save_matrices_to_json(matrices)
 
